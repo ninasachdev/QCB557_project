@@ -1,0 +1,7 @@
+NOTES:
+This document will be used for just extra notes
+
+- We should think about unfreezing some layers
+- We don't need that extra code to add the classification head anymore
+- I think the max sequence length might be greater? We should look into it
+- 
