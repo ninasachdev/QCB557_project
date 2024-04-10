@@ -9,10 +9,9 @@
 #SBATCH --mail-type=begin        # send mail when job begins
 #SBATCH --mail-type=end          # send mail when job ends
 #SBATCH --mail-type=fail         # send mail if job fails
-#SBATCH --mail-user=aa8417@princeton.edu
+#SBATCH --mail-user=ns5404@princeton.edu
 
-module purge
-module load anaconda3/2023.9
-conda activate torch-env
+module load module load anaconda3/2024.2
+conda activate dna
 
 python fine_tune.py
