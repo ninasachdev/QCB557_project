@@ -1,7 +1,0 @@
-ERROR: Unable to locate a modulefile for 'cudatoolkit/11.2'
-Traceback (most recent call last):
-  File "/scratch/gpfs/aa8417/QCB557_project/fine_tune.py", line 2, in <module>
-    import torch
-  File "/home/aa8417/.conda/envs/dna2/lib/python3.10/site-packages/torch/__init__.py", line 192, in <module>
-    from torch._C import *  # noqa: F403
-ImportError: /lib64/libstdc++.so.6: version `GLIBCXX_3.4.30' not found (required by /home/aa8417/.conda/envs/dna2/lib/python3.10/site-packages/torch/lib/libtorch_python.so)
