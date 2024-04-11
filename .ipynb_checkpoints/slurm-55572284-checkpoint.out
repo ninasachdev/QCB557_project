@@ -1,0 +1,82 @@
+ERROR: Unable to locate a modulefile for 'cudatoolkit/11.2'
+Some weights of the model checkpoint at zhihan1996/DNABERT-2-117M were not used when initializing BertForSequenceClassification: ['cls.predictions.transform.LayerNorm.weight', 'cls.predictions.decoder.weight', 'cls.predictions.transform.dense.bias', 'cls.predictions.transform.LayerNorm.bias', 'cls.predictions.transform.dense.weight', 'cls.predictions.decoder.bias']
+- This IS expected if you are initializing BertForSequenceClassification from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).
+- This IS NOT expected if you are initializing BertForSequenceClassification from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).
+Some weights of BertForSequenceClassification were not initialized from the model checkpoint at zhihan1996/DNABERT-2-117M and are newly initialized: ['bert.pooler.dense.bias', 'classifier.bias', 'bert.pooler.dense.weight', 'classifier.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/transformers/optimization.py:407: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+cuda:0
+2
+  0%|          | 0/18630 [00:00<?, ?it/s]huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+huggingface/tokenizers: The current process just got forked, after parallelism has already been used. Disabling parallelism to avoid deadlocks...
+To disable this warning, you can either:
+	- Avoid using `tokenizers` before the fork if possible
+	- Explicitly set the environment variable TOKENIZERS_PARALLELISM=(true | false)
+/tmp/tmpk3sj0bt2/main.c:2:10: fatal error: cuda.h: No such file or directory
+ #include "cuda.h"
+          ^~~~~~~~
+compilation terminated.
+Traceback (most recent call last):
+  File "<string>", line 21, in _fwd_kernel
+KeyError: ('2-.-0-.-0--2b0c5161c53c71b37ae20a9996ee4bb8-c1f92808b4e4644c1732e8338187ac87-42648570729a4835b21c1c18cebedbfe-12f7ac1ca211e037f62a7c0c323d9990-5c5e32ff210f3b7f56c98ca29917c25e-06f0df2d61979d629033f4a22eff5198-0dd03b0bd512a184b3512b278d9dfa59-d35ab04ae841e2714a253c523530b071', (torch.float16, torch.float16, torch.float16, torch.float32, torch.float16, torch.float32, torch.float32, 'fp32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32', 'i32'), ('matrix', False, 64, True, True, True, 128, 128), (True, True, True, True, True, True, True, (False,), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (True, False), (False, False), (True, False), (True, False), (True, False), (True, False), (False, False), (False, False)))
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "fine_tune.py", line 155, in <module>
+    trainer.train()
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/transformers/trainer.py", line 1664, in train
+    return inner_training_loop(
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/transformers/trainer.py", line 1940, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/transformers/trainer.py", line 2735, in training_step
+    loss = self.compute_loss(model, inputs)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/transformers/trainer.py", line 2767, in compute_loss
+    outputs = model(**inputs)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/bert_layers.py", line 859, in forward
+    outputs = self.bert(
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/bert_layers.py", line 609, in forward
+    encoder_outputs = self.encoder(
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/bert_layers.py", line 447, in forward
+    hidden_states = layer_module(hidden_states,
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/bert_layers.py", line 328, in forward
+    attention_output = self.attention(hidden_states, cu_seqlens, seqlen,
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/bert_layers.py", line 241, in forward
+    self_output = self.self(input_tensor, cu_seqlens, max_s, indices,
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1194, in _call_impl
+    return forward_call(*input, **kwargs)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/bert_layers.py", line 186, in forward
+    attention = flash_attn_qkvpacked_func(qkv, bias)
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/flash_attn_triton.py", line 1021, in forward
+    o, lse, ctx.softmax_scale = _flash_attn_forward(
+  File "/home/aa8417/.cache/huggingface/modules/transformers_modules/zhihan1996/DNABERT-2-117M/d064dece8a8b41d9fb8729fbe3435278786931f1/flash_attn_triton.py", line 826, in _flash_attn_forward
+    _fwd_kernel[grid](  # type: ignore
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/triton/runtime/jit.py", line 106, in launcher
+    return self.run(*args, grid=grid, **kwargs)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/triton/runtime/autotuner.py", line 86, in run
+    return self.fn.run(*args, num_warps=config.num_warps, num_stages=config.num_stages, **kwargs, **config.kwargs)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/triton/runtime/autotuner.py", line 200, in run
+    return self.fn.run(*args, **kwargs)
+  File "<string>", line 41, in _fwd_kernel
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/triton/compiler.py", line 1239, in compile
+    so = _build(fn.__name__, src_path, tmpdir)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/triton/compiler.py", line 1169, in _build
+    ret = subprocess.check_call(cc_cmd)
+  File "/home/aa8417/.conda/envs/dna/lib/python3.8/subprocess.py", line 364, in check_call
+    raise CalledProcessError(retcode, cmd)
+subprocess.CalledProcessError: Command '['/usr/bin/gcc', '/tmp/tmpk3sj0bt2/main.c', '-O3', '-I/usr/local/cuda/include', '-I/home/aa8417/.conda/envs/dna/include/python3.8', '-I/tmp/tmpk3sj0bt2', '-shared', '-fPIC', '-lcuda', '-o', '/tmp/tmpk3sj0bt2/_fwd_kernel.cpython-38-x86_64-linux-gnu.so', '-L/usr/lib64']' returned non-zero exit status 1.
+  0%|          | 0/18630 [00:01<?, ?it/s]
