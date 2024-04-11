@@ -131,6 +131,9 @@ training_args = TrainingArguments(
     #dataloader_pin_memory=True
     )
 
+training_args_output = f'{project_dir}/models_output/train_args_{model_name}.json'
+training_args.save_args(training_args_output)
+
 #need to fix this, doesn't work with current prediction + label format
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
