@@ -11,7 +11,7 @@
 #SBATCH --mail-type=fail         # send mail if job fails
 #SBATCH --mail-user=ns5404@princeton.edu
 
-module load module load anaconda3/2024.2
+module load anaconda3/2024.2
 conda activate dna
 
 python fine_tune.py
