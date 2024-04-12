@@ -35,7 +35,7 @@ princeton_id = 'aa8417'
 
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
 
-model_name = 'fine_tune_new_v2'
+model_name = 'fine_tune_new_v3'
 model_out_dir = f'{project_dir}/models/{model_name}'
 
 # use gpu
@@ -55,6 +55,7 @@ tokenizer.pad_token = "X"
 # as we go through rounds of fine-tuning, we can optionally unfreeze from of the pretrained layers to improve performance
 
 # unfreeze specific layers
+'''
 for name, param in model.named_parameters():
     if "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name:
         param.requires_grad = True
@@ -62,11 +63,10 @@ for name, param in model.named_parameters():
         param.requires_grad = False
 '''
 for name, param in model.named_parameters():
-    if "classifier" in name:
+    if "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name:
         param.requires_grad = True
     else:
         param.requires_grad = False
-'''
 
 model.to(device)
 
