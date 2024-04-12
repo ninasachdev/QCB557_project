@@ -105,6 +105,7 @@ cuda:0
  39%|███▉      | 162/414 [00:02<00:03, 72.26it/s][A
  41%|████      | 170/414 [00:02<00:03, 72.39it/s][A
  43%|████▎     | 178/414 [00:02<00:03, 72.25it/s][A
+<<<<<<< HEAD
  45%|████▍     | 186/414 [00:02<00:03, 72.28it/s][A
  47%|████▋     | 194/414 [00:02<00:03, 72.43it/s][A
  49%|████▉     | 202/414 [00:02<00:02, 72.14it/s][A
@@ -5377,3 +5378,6 @@ Traceback (most recent call last):
   File "/home/aa8417/.conda/envs/dna/lib/python3.8/site-packages/triton/compiler.py", line 901, in _compile
     name, asm, shared_mem = _triton.code_gen.compile_ttir(backend, module, device, num_warps, num_stages, extern_libs, cc)
 RuntimeError: `ptxas` was searched in TRITON_PTXAS_PATH, /usr/local/cuda/bin/ or PATH but a working version could not be found.
+=======
+ 45%|████▍     | 186/414 [00:02<00:03, 72.28it/s][A
+>>>>>>> efca15b4f86aca9765e5a69f256a7e4fbd259778
