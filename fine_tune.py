@@ -10,12 +10,18 @@ from transformers import (
     Trainer, 
     DataCollatorForLanguageModeling
 )
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score
+)
 from transformers.models.bert.configuration_bert import BertConfig 
 import numpy as np
 from datasets import load_dataset, Dataset
 from torch.utils.data import DataLoader
 from sklearn.model_selection import train_test_split
-from training_args_module import training_args
+#from training_args_module import training_args
 import transformers
 import os
 
@@ -29,7 +35,7 @@ princeton_id = 'aa8417'
 
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
 
-model_name = 'fine_tune_new_v0'
+model_name = 'fine_tune_new_v2'
 model_out_dir = f'{project_dir}/models/{model_name}'
 
 # use gpu
@@ -50,10 +56,17 @@ tokenizer.pad_token = "X"
 
 # unfreeze specific layers
 for name, param in model.named_parameters():
+    if "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name:
+        param.requires_grad = True
+    else:
+        param.requires_grad = False
+'''
+for name, param in model.named_parameters():
     if "classifier" in name:
         param.requires_grad = True
     else:
         param.requires_grad = False
+'''
 
 model.to(device)
 
@@ -123,8 +136,8 @@ training_args = TrainingArguments(
     #dataloader_pin_memory=True
     )
 
-training_args_output = f'{project_dir}/models_output/train_args_{model_name}.json'
-training_args.save_args(training_args_output)
+#training_args_output = f'{project_dir}/models_output/train_args_{model_name}.json'
+#training_args.save_args(training_args_output)
 
 # compute metrics (accuracy, precision, recall, f1)
 def compute_metrics(eval_pred):
