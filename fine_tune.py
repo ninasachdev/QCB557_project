@@ -28,14 +28,26 @@ import os
 import csv
 from Bio import SeqIO
 
+
+import argparse
+
+# Define the parser
+parser = argparse.ArgumentParser(description='Arguments to script')
+parser.add_argument('--username', type=str, default=None, required=True, help='Della username')
+parser.add_argument('--model_name', type=str, default=None, required=True, help='Model name')
+args = parser.parse_args()
+
+
 # Add ids and comment out others when using
-princeton_id = 'aa8417'
+#princeton_id = 'aa8417'
 #princeton_id = 'ns5404'
 #princeton_id = 'jf...'
+princeton_id = args.username
 
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
 
-model_name = 'fine_tune_new_v3'
+#model_name = 'fine_tune_new_v3'
+model_name=args.model_name
 model_out_dir = f'{project_dir}/models/{model_name}'
 
 # use gpu
@@ -62,8 +74,37 @@ for name, param in model.named_parameters():
     else:
         param.requires_grad = False
 '''
+
+if model_name == 'fine_tune_new_v3':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name
+
+if model_name == 'fine_tune_new_v4':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name
+
+if model_name == 'fine_tune_new_v5':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name
+
+if model_name == 'fine_tune_new_v6':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name
+
+if model_name == 'fine_tune_new_v7':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name
+
+if model_name == 'fine_tune_new_v8':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name
+
+if model_name == 'fine_tune_new_v9':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name
+
+if model_name == 'fine_tune_new_v10':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name
+
+if model_name == 'fine_tune_new_v11':
+    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name
+
+
 for name, param in model.named_parameters():
-    if "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name:
+    if freeze_layers:
         param.requires_grad = True
     else:
         param.requires_grad = False
