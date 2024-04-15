@@ -110,6 +110,9 @@ for name, param in model.named_parameters():
     
     if model_name == 'fine_tune_new_v11':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name
+
+    if model_name == 'fine_tune_new_v12':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name or "encoder.layer.0" in name
     
     if freeze_layers:
         param.requires_grad = True
