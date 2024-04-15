@@ -16,4 +16,4 @@ module load anaconda3/2024.2
 
 conda activate dna
 
-python fine_tune.py --username=$1 --model-name=$2
+python fine_tune.py --username=$1 --model_name=$2

@@ -75,35 +75,36 @@ for name, param in model.named_parameters():
         param.requires_grad = False
 '''
 
-if model_name == 'fine_tune_new_v3':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name
-
-if model_name == 'fine_tune_new_v4':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name
-
-if model_name == 'fine_tune_new_v5':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name
-
-if model_name == 'fine_tune_new_v6':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name
-
-if model_name == 'fine_tune_new_v7':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name
-
-if model_name == 'fine_tune_new_v8':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name
-
-if model_name == 'fine_tune_new_v9':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name
-
-if model_name == 'fine_tune_new_v10':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name
-
-if model_name == 'fine_tune_new_v11':
-    freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name
 
 
 for name, param in model.named_parameters():
+    if model_name == 'fine_tune_new_v3':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name
+    
+    if model_name == 'fine_tune_new_v4':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name
+    
+    if model_name == 'fine_tune_new_v5':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name
+    
+    if model_name == 'fine_tune_new_v6':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name
+    
+    if model_name == 'fine_tune_new_v7':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name
+    
+    if model_name == 'fine_tune_new_v8':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name
+    
+    if model_name == 'fine_tune_new_v9':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name
+    
+    if model_name == 'fine_tune_new_v10':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name
+    
+    if model_name == 'fine_tune_new_v11':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name
+    
     if freeze_layers:
         param.requires_grad = True
     else:
