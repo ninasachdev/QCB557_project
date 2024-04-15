@@ -78,6 +78,12 @@ for name, param in model.named_parameters():
 
 
 for name, param in model.named_parameters():
+    if model_name == 'fine_tune_new_v1':
+        freeze_layers = "classifier" in name or "encoder.layer.11"
+    
+    if model_name == 'fine_tune_new_v2':
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10"
+    
     if model_name == 'fine_tune_new_v3':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name
     
@@ -234,7 +240,6 @@ for idx, sample in enumerate(test_ds):
 
         predictions.append(predicted_labels)
         true_labels.append(sample['labels'].item())
-        break
 
 # concatenate predictions and convert true_labels to numpy array
 predictions = torch.cat(predictions).cpu().numpy()
