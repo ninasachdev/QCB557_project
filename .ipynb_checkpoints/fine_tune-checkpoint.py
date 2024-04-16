@@ -31,23 +31,26 @@ from Bio import SeqIO
 
 import argparse
 
+
 # Define the parser
 parser = argparse.ArgumentParser(description='Arguments to script')
 parser.add_argument('--username', type=str, default=None, required=True, help='Della username')
-parser.add_argument('--model_name', type=str, default=None, required=True, help='Model name')
+#parser.add_argument('--model_name', type=str, default=None, required=True, help='Model name')
 args = parser.parse_args()
 
+idx = int(os.environ["SLURM_ARRAY_TASK_ID"])
+layers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+layer = layers[idx]
+model_name = f'fine_tune_parallel_v{layer}'
 
-# Add ids and comment out others when using
-#princeton_id = 'aa8417'
-#princeton_id = 'ns5404'
-#princeton_id = 'jf...'
+# we are testing out 1e-6 or 1e-7. just adjust the parameter here and it'll automatically adjust
+lr = 1e-6
+
 princeton_id = args.username
-
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
 
 #model_name = 'fine_tune_new_v3'
-model_name=args.model_name
+#model_name=args.model_name
 model_out_dir = f'{project_dir}/models/{model_name}'
 
 # use gpu
@@ -75,43 +78,41 @@ for name, param in model.named_parameters():
         param.requires_grad = False
 '''
 
-
-
 for name, param in model.named_parameters():
-    if model_name == 'fine_tune_new_v1':
+    if model_name == 'fine_tune_parallel_v1':
         freeze_layers = "classifier" in name or "encoder.layer.11"
     
-    if model_name == 'fine_tune_new_v2':
+    if model_name == 'fine_tune_parallel_v2':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10"
     
-    if model_name == 'fine_tune_new_v3':
+    if model_name == 'fine_tune_parallel_v3':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name
     
-    if model_name == 'fine_tune_new_v4':
+    if model_name == 'fine_tune_parallel_v4':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name
     
-    if model_name == 'fine_tune_new_v5':
+    if model_name == 'fine_tune_parallel_v5':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name
     
-    if model_name == 'fine_tune_new_v6':
+    if model_name == 'fine_tune_parallel_v6':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name
     
-    if model_name == 'fine_tune_new_v7':
+    if model_name == 'fine_tune_parallel_v7':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name
     
-    if model_name == 'fine_tune_new_v8':
+    if model_name == 'fine_tune_parallel_v8':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name
     
-    if model_name == 'fine_tune_new_v9':
+    if model_name == 'fine_tune_parallel_v9':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name
     
-    if model_name == 'fine_tune_new_v10':
+    if model_name == 'fine_tune_parallel_v10':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name
     
-    if model_name == 'fine_tune_new_v11':
+    if model_name == 'fine_tune_parallel_v11':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name
 
-    if model_name == 'fine_tune_new_v12':
+    if model_name == 'fine_tune_parallel_v12':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name or "encoder.layer.8" in name or "encoder.layer.7" in name or "encoder.layer.6" in name or "encoder.layer.5" in name or "encoder.layer.4" in name or "encoder.layer.3" in name or "encoder.layer.2" in name or "encoder.layer.1" in name or "encoder.layer.0" in name
     
     if freeze_layers:
@@ -172,7 +173,7 @@ training_args = TrainingArguments(
     num_train_epochs= 100, 
     per_device_train_batch_size=32, # powers of 2
     weight_decay=0.015, # regularization
-    learning_rate=1e-5,
+    learning_rate=lr,
     gradient_accumulation_steps=2, # how many batches of gradients are accumulated before parameter update
     #gradient_checkpointing=True, # helps reduce memory
     #dataloader_num_workers=4,
