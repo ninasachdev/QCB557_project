@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=1e-5    # create a short name for your job
+#SBATCH --job-name=1e-7    # create a short name for your job
 #SBATCH --output=slurm-%A.%a.out # stdout file
 #SBATCH --nodes=1                # node count
 #SBATCH --ntasks=1               # total number of tasks across all nodes
@@ -11,7 +11,7 @@
 #SBATCH --mail-type=begin        # send mail when job begins
 #SBATCH --mail-type=end          # send mail when job ends
 #SBATCH --mail-type=fail         # send mail if job fails
-#SBATCH --mail-user=aa8417@princeton.edu
+#SBATCH --mail-user=ns5404@princeton.edu
 
 # remember to change the email and the job name with the learning rate you're trying
 

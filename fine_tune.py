@@ -44,7 +44,7 @@ layer = layers[idx]
 model_name = f'fine_tune_parallel_v{layer}'
 
 # we are testing out 1e-6 or 1e-7. just adjust the parameter here and it'll automatically adjust
-lr = 1e-6
+lr = 1e-7
 
 princeton_id = args.username
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
