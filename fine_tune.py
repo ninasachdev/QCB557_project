@@ -43,8 +43,7 @@ layers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 layer = layers[idx]
 model_name = f'fine_tune_parallel_v{layer}'
 
-histone = 'H3K4me3' # MAKE SURE TO SPECIFY HISTONE IN THE MODEL NAME
-
+# we are testing out 1e-6 or 1e-7. just adjust the parameter here and it'll automatically adjust
 lr = 1e-7
 
 princeton_id = args.username
@@ -151,10 +150,10 @@ class custom_data_load(torch.utils.data.Dataset):
             'labels': (torch.tensor([label], dtype=torch.long))
         }
 
-train_data_to_split = pd.read_csv(f'{project_dir}/data/{histone}/train.csv')
+train_data_to_split = pd.read_csv(f'{project_dir}/data/train.csv')
 train_data_to_split['label'] = train_data_to_split['label'].astype(int)
 
-test_data = pd.read_csv(f'{project_dir}/data/{histone}/test.csv')
+test_data = pd.read_csv(f'{project_dir}/data/test.csv')
 test_data['label'] = test_data['label'].astype(int)
 
 test_ds = custom_data_load(dataframe = test_data, tokenizer = tokenizer, shuffle=False)
@@ -253,4 +252,3 @@ true_labels = np.array(true_labels)
 # save evaluation results to CSV
 results_df = pd.DataFrame({'true_labels': true_labels, 'predicted_labels': predictions})
 results_df.to_csv(f'{project_dir}/model_output/results_{model_name}.csv', index=False)
-
