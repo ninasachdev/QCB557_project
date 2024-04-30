@@ -27,6 +27,7 @@ import os
 
 import csv
 from Bio import SeqIO
+from pathlib import Path
 
 
 import argparse
@@ -35,6 +36,9 @@ import argparse
 # Define the parser
 parser = argparse.ArgumentParser(description='Arguments to script')
 parser.add_argument('--username', type=str, default=None, required=True, help='Della username')
+parser.add_argument('--model_out_dir', type=str, default=None, required=True, help='Model output directory')
+parser.add_argument('--results_out_dir', type=str, default=None, required=True, help='Results output directory')
+parser.add_argument('--histone', type=str, default=None, required=True, help='Histone mark')
 #parser.add_argument('--model_name', type=str, default=None, required=True, help='Model name')
 args = parser.parse_args()
 
@@ -43,7 +47,7 @@ layers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 layer = layers[idx]
 model_name = f'fine_tune_parallel_v{layer}'
 
-histone = 'H3K4me3' # MAKE SURE TO SPECIFY HISTONE IN THE MODEL NAME
+histone = args.histone #'H3K4me3' # MAKE SURE TO SPECIFY HISTONE IN THE MODEL NAME
 
 lr = 1e-7
 
@@ -52,7 +56,13 @@ project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
 
 #model_name = 'fine_tune_new_v3'
 #model_name=args.model_name
-model_out_dir = f'{project_dir}/models/{model_name}'
+#model_out_dir = f'{project_dir}/models/{model_name}'
+model_out_dir = f'{args.model_out_dir}/{model_name}'
+
+
+Path(model_out_dir).mkdir(parents=True, exist_ok=True)
+
+Path(args.results_out_dir).mkdir(parents=True, exist_ok=True)
 
 # use gpu
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
@@ -81,7 +91,7 @@ for name, param in model.named_parameters():
 
 for name, param in model.named_parameters():
     if model_name == 'fine_tune_parallel_v0':
-	freeze_layers = "classifier" in name
+    	freeze_layers = "classifier" in name
 
     if model_name == 'fine_tune_parallel_v1':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name
@@ -223,7 +233,7 @@ trainer.train()
 trainer.save_model(training_args.output_dir)
 
 log_df = pd.DataFrame(trainer.state.log_history)
-log_df.to_csv(f'{project_dir}/model_output/log_{model_name}.csv', index=False)
+log_df.to_csv(f'{args.results_out_dir}/log_{model_name}.csv', index=False)
 
 # load fine-tuned model
 config = BertConfig.from_pretrained(f'{training_args.output_dir}/config.json')
@@ -255,5 +265,5 @@ true_labels = np.array(true_labels)
 
 # save evaluation results to CSV
 results_df = pd.DataFrame({'true_labels': true_labels, 'predicted_labels': predictions})
-results_df.to_csv(f'{project_dir}/model_output/results_{model_name}.csv', index=False)
+results_df.to_csv(f'{args.results_out_dir}/results_{model_name}.csv', index=False)
 
