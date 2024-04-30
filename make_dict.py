@@ -31,18 +31,13 @@ from Bio import SeqIO
 
 import argparse
 
-princeton_id = 'aa8417'
+princeton_id = 'ns5404'
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
-
-
-# change this depending on which is the best model
-model_name = 'fine_tune_new_v3'
-model_out_dir = f'{project_dir}/models/{model_name}'
 
 # use gpu
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
-config = BertConfig.from_pretrained(f'scratch/gpfs/aa8417/QCB557_project/models/replicate_042524/rep0/fine_tune_parallel_v2/config.json', output_attentions=True)
+config = BertConfig.from_pretrained(f'scratch/gpfs/{princeton_id}/QCB557_project/models/replicate_042524/rep0/fine_tune_parallel_v2/config.json', output_attentions=True)
 print(config.num_labels) #2 labels
 model_base = AutoModel.from_pretrained(model_out_dir, trust_remote_code=True, config=config)
 model_base.to(device)
