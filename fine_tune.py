@@ -80,11 +80,14 @@ for name, param in model.named_parameters():
 '''
 
 for name, param in model.named_parameters():
+    if model_name == 'fine_tune_parallel_v0':
+	freeze_layers = "classifier" in name
+
     if model_name == 'fine_tune_parallel_v1':
-        freeze_layers = "classifier" in name or "encoder.layer.11"
-    
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name
+     
     if model_name == 'fine_tune_parallel_v2':
-        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10"
+        freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name
     
     if model_name == 'fine_tune_parallel_v3':
         freeze_layers = "classifier" in name or "encoder.layer.11" in name or "encoder.layer.10" in name or "encoder.layer.9" in name
