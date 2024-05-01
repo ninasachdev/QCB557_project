@@ -17,4 +17,4 @@ module purge
 module load anaconda3/2023.9
 conda activate dna
 
-python fine_tune.py
+python eval_histones.py
