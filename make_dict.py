@@ -71,7 +71,7 @@ def get_model_output(model_base, model_seq, tokenizer, dataframe, device):
             attention_weights = outputs_seq.attentions
             hidden_states = outputs_seq.hidden_states
         
-        with torch.no_grad()
+        with torch.no_grad():
             outputs_base = model_base(input_ids=input_ids, attention_mask=attention_mask, output_attentions=True)
             attention_weights = outputs_base.attentions
 
