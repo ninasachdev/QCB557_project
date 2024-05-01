@@ -39,7 +39,7 @@ histone = histones[idx]
 model_path = ''
 
 # load fine-tuned model
-config = BertConfig.from_pretrained(f'{training_args.output_dir}/config.json')
+config = BertConfig.from_pretrained(model_path)
 print(config.num_labels) #2 labels
 model = AutoModelForSequenceClassification.from_pretrained(model_path, trust_remote_code=True, config=config)
 model.to(device)
@@ -48,6 +48,39 @@ model.eval()
 
 predictions = []
 true_labels = []
+
+class custom_data_load(torch.utils.data.Dataset):
+    def __init__(self, dataframe, tokenizer, shuffle=True):
+        if shuffle:
+            self.dataframe = dataframe.sample(frac=1).reset_index(drop=True)  # shuffle the dataframe
+        else:
+            self.dataframe = dataframe
+        self.tokenizer = tokenizer
+
+    def __len__(self):
+        return len(self.dataframe)
+
+    def __getitem__(self, idx):
+        sequence = self.dataframe.iloc[idx]['sequence']
+        label = (self.dataframe.iloc[idx]['label'])
+
+        # tokenize the sequence
+        # tokenizer automatically generates attention masks
+        inputs = self.tokenizer(sequence, padding='max_length', max_length=128, return_tensors='pt')
+        
+        # move inputs to gpu
+        #inputs = {key: value.to(device) for key, value in inputs.items()}
+
+        return {
+            'input_ids': inputs['input_ids'].squeeze(),
+            'attention_mask': inputs['attention_mask'].squeeze(),
+            'labels': (torch.tensor([label], dtype=torch.long))
+        }
+
+test_data = pd.read_csv(f'{project_dir}/data/{histone}/test.csv')
+test_data['label'] = test_data['label'].astype(int)
+
+test_ds = custom_data_load(dataframe = test_data, tokenizer = tokenizer, shuffle=False)
 
 # go through test dataset, make predictions and store them
 for idx, sample in enumerate(test_ds):
