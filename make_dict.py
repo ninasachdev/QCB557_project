@@ -24,11 +24,8 @@ from sklearn.model_selection import train_test_split
 #from training_args_module import training_args
 import transformers
 import os
-
 import csv
 from Bio import SeqIO
-
-
 import argparse
 
 princeton_id = 'aa8417'
@@ -74,7 +71,7 @@ def get_model_output(model_base, model_seq, tokenizer, dataframe, device):
         
         with torch.no_grad():
             outputs_base = model_base(input_ids=input_ids, attention_mask=attention_mask, output_attentions=True)
-            attention_weights = outputs_base.attentions
+            attention_weights = outputs_base[1]
 
         key = f'seq_{index}_{label}'
         results_dict[key] = {
