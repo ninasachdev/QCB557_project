@@ -31,21 +31,23 @@ from Bio import SeqIO
 
 import argparse
 
-princeton_id = 'ns5404'
+princeton_id = 'aa8417'
 project_dir = f'/scratch/gpfs/{princeton_id}/QCB557_project'
 
 # use gpu
 device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
 
-config = BertConfig.from_pretrained(f'scratch/gpfs/{princeton_id}/QCB557_project/models/replicate_042524/rep0/fine_tune_parallel_v2/config.json', output_attentions=True)
-print(config.num_labels) #2 labels
-model_base = AutoModel.from_pretrained(model_out_dir, trust_remote_code=True, config=config)
-model_base.to(device)
+model_out_dir = '/scratch/gpfs/aa8417/QCB557_project/models/replicate_043024/rep1/fine_tune_parallel_v1'
 
-config = BertConfig.from_pretrained("zhihan1996/DNABERT-2-117M", output_hidden_states=True, output_attentions=True)
-print(config.num_labels) #2 labels
-model_seq = AutoModelForSequenceClassification.from_pretrained("zhihan1996/DNABERT-2-117M", trust_remote_code=True, config=config)
+config_seq = BertConfig.from_pretrained(f'/scratch/gpfs/{princeton_id}/QCB557_project/models/replicate_043024/rep1/fine_tune_parallel_v1/config.json', output_attentions=True)
+print(config_seq.num_labels) #2 labels
+model_seq = AutoModelForSequenceClassification.from_pretrained(model_out_dir, trust_remote_code=True, config=config_seq)
 model_seq.to(device)
+
+config_base = BertConfig.from_pretrained("zhihan1996/DNABERT-2-117M", output_hidden_states=True, output_attentions=True)
+print(config_base.num_labels) #2 labels
+model_base = AutoModel.from_pretrained("zhihan1996/DNABERT-2-117M", trust_remote_code=True, config=config_base)
+model_base.to(device)
 
 tokenizer = AutoTokenizer.from_pretrained("zhihan1996/DNABERT-2-117M", trust_remote_code=True, padding=True)
 tokenizer.pad_token = "X"
@@ -68,7 +70,6 @@ def get_model_output(model_base, model_seq, tokenizer, dataframe, device):
 
         with torch.no_grad():
             outputs_seq = model_seq(input_ids=input_ids, attention_mask=attention_mask, output_attentions=True)
-            attention_weights = outputs_seq.attentions
             hidden_states = outputs_seq.hidden_states
         
         with torch.no_grad():
@@ -85,7 +86,7 @@ def get_model_output(model_base, model_seq, tokenizer, dataframe, device):
 
     return results_dict
 
-results_dict = get_model_output(model_base, model_seq, tokenizer, data, device)
+results_dict = get_model_output(model_base, model_seq, tokenizer, full, device)
 
 json_file_path = f'/scratch/gpfs/{princeton_id}/QCB557_project/data/H3K4me3/results_dict.json'
 
