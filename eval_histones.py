@@ -34,14 +34,17 @@ import argparse
 idx = int(os.environ["SLURM_ARRAY_TASK_ID"])
 histones = ['H3', 'H3K14ac', 'H3K36me3', 'H3K4me1', 'H3K4me2', 'H3K4me3', 'H3K9ac', 'H4', 'H4ac']
 histone = histones[idx]
-
+project_dir = '/scratch/gpfs/jf1360/QCB557_project'
 # put best model path here
-model_path = ''
-
+model_path = './models/replicate_043024/rep1/fine_tune_parallel_v1/'
+model_name = 'fine_tune_v1'
 # load fine-tuned model
-config = BertConfig.from_pretrained(model_path)
+device = 'cuda:0' if torch.cuda.is_available() else 'cpu'
+config = BertConfig.from_pretrained(f'{model_path}/config.json')
 print(config.num_labels) #2 labels
 model = AutoModelForSequenceClassification.from_pretrained(model_path, trust_remote_code=True, config=config)
+tokenizer = AutoTokenizer.from_pretrained("zhihan1996/DNABERT-2-117M", trust_remote_code=True, padding=True)
+tokenizer.pad_token = "X"
 model.to(device)
 
 model.eval()
